@@ -2,6 +2,8 @@ package com.example.googlelocation.customView;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.ContextWrapper;
+import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
 import com.example.googlelocation.util.GpsUtil;
@@ -35,7 +37,7 @@ public class LocationBtn extends UtilBtn {
             public void onSuccess(List<String> granted_permission) {
                 //TODO: permission is ok, but gps could be not turn on yet
                 Log.e(TAG, "permission here");
-                gpsUtil.turnGPSOn((Activity) context, new GpsUtil.onGpsListener() {
+                gpsUtil.turnGPSOn(getActivity(context), new GpsUtil.onGpsListener() {
                     @Override
                     public void gpsStatus(boolean isGPSEnable) {
                         Log.e(TAG, "enable gps:"+isGPSEnable);
@@ -71,4 +73,15 @@ public class LocationBtn extends UtilBtn {
         LocationUpdateUtil.getInstance().stopLocationUpdates();
     }
 
+    /*為了拿到activity的context */
+    private Activity getActivity(Context cont) {
+        if (cont == null)
+            return null;
+        else if (cont instanceof Activity)
+            return (Activity)cont;
+        else if (cont instanceof ContextWrapper)
+            return getActivity(((ContextWrapper)cont).getBaseContext());
+
+        return null;
+    }
 }
