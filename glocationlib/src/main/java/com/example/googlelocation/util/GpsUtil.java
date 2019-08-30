@@ -69,7 +69,7 @@ public class GpsUtil {
      * <IMPORTANT>
      *     Android 4.4-7: gps check
      *     locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-     *
+     *     startResolutionForResult(需要activity在這裏)
      * </IMPORTANT>
      * @param onGpsListener
      */

@@ -144,7 +144,7 @@ public class LocationUpdateUtil {
                 //TODO: pass to activity
                 if (resultCode == Constants.SUCCESS_RESULT){
                     Address address = new Address(resultData.getString(Constants.RESULT_DATA_KEY));
-                    listener.update(activeUpdate, address);
+                    if(listener != null) listener.update(activeUpdate, address);
                 }
             }
         };
