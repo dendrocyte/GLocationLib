@@ -14,6 +14,12 @@ import java.util.List;
 
 /**
  * Created by luyiling on 2019/4/4
+ * Modified by luyiling on 2019/10/4
+ * @impNote
+ * 為了讓其他的btn可以做修改
+ * 將startLocationUpdate()和setOnAddressListener()
+ * 的個別程式碼提出來
+ * 讓其他btn可以做override
  * <p>
  * TODO: customized btn should modified while lifecycle of activity and fragment changed
  *
@@ -42,21 +48,35 @@ public class LocationBtn extends UtilBtn {
                     public void gpsStatus(boolean isGPSEnable) {
                         Log.e(TAG, "enable gps:"+isGPSEnable);
                         //TODO: update the new location, this 2 method should be nearby as below
-                        LocationUpdateUtil.getInstance().startLocationUpdates(gpsUtil.getLocateRequest());
-                        LocationUpdateUtil.getInstance().setOnAddressListener(new LocationUpdateUtil.AddressListener() {
-                            @Override
-                            public void update(boolean activeUpdate, LocationUpdateUtil.Address address) {
-                                isActiveUpdate = activeUpdate;
-                                Log.d(TAG,"current city:"+address.getCity());
-                                setText(address.getCity());
-                            }
-                        });
+                        startLocationUpdate();
+                        setOnAddressListener();
                     }
                 });
             }
             @Override
             public void onFailed(List<String> deny_permission) {
 
+            }
+        });
+    }
+
+    /**
+     * for override
+     */
+    protected void startLocationUpdate(){
+        LocationUpdateUtil.getInstance().startLocationUpdates(gpsUtil.getLocateRequest());
+    }
+
+    /**
+     * for override
+     */
+    protected void setOnAddressListener(){
+        LocationUpdateUtil.getInstance().setOnAddressListener(new LocationUpdateUtil.AddressListener() {
+            @Override
+            public void update(boolean activeUpdate, LocationUpdateUtil.Address address) {
+                isActiveUpdate = activeUpdate;
+                Log.d(TAG,"current city:"+address.getCity());
+                setText(address.getCity());
             }
         });
     }
