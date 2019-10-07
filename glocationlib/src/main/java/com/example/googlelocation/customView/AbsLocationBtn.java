@@ -24,23 +24,18 @@ import com.google.android.gms.location.LocationResult;
  */
 public class AbsLocationBtn extends LocationBtn  {
     private String TAG = AbsLocationBtn.class.getSimpleName();
-
+    private LocationCallback locationCallback;
     public AbsLocationBtn(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
-    protected LocationCallback locationCallback = new LocationCallback() {
-        @Override
-        public void onLocationResult(LocationResult locationResult) {
-            if (locationResult == null) return;
-            Log.w(TAG, "get location result:"+locationResult);
-            Location mCurrentLocation = locationResult.getLastLocation();
-            Log.w(TAG, "lat: "+mCurrentLocation.getLatitude()+";"+
-                    "lon:" +mCurrentLocation.getLongitude());
-
-
-        }
-    };
+    /**
+     * do it necessary
+     * @param callback
+     */
+    public void setLocationCallback(LocationCallback callback){
+        this.locationCallback = callback;
+    }
 
     @Override
     protected void startLocationUpdate() {
