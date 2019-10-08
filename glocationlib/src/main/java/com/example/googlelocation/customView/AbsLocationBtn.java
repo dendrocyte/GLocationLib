@@ -5,6 +5,7 @@ import android.location.Location;
 import android.util.AttributeSet;
 import android.util.Log;
 
+import com.example.googlelocation.listener.AbsLocationListener;
 import com.example.googlelocation.util.LocationUpdateUtil;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationResult;
@@ -39,8 +40,8 @@ public class AbsLocationBtn extends LocationBtn  {
         this.listener = callback;
     }
 
-    public final int STOP_AFTER_GOT = 2;
-    public final int NOT_STOP = 3;
+    public static final int STOP_AFTER_GOT = 2;
+    public static final int NOT_STOP = 3;
     private int stop_spec = NOT_STOP; //default not_stop
 
     /**
@@ -81,7 +82,5 @@ public class AbsLocationBtn extends LocationBtn  {
          */
     }
 
-    interface AbsLocationListener{
-        void onAbsResult(LocationResult result);
-    }
+
 }
