@@ -99,11 +99,12 @@ public class LocationUpdateUtil {
      * already permission check
      * 若只需要拿lat & lon.
      * @param locationRequest
-     * @param locationCallback 得到lat & lon result
+     * @param callback 得到lat & lon result
      */
     @SuppressLint("MissingPermission")
-    public void startLocationUpdates(LocationRequest locationRequest, LocationCallback locationCallback) {
-        fusedLocateClient.requestLocationUpdates(locationRequest, locationCallback, null /* Looper */);
+    public void startLocationUpdates(LocationRequest locationRequest, LocationCallback callback) {
+        fusedLocateClient.requestLocationUpdates(locationRequest, callback, null /* Looper */);
+        this.locationCallback = callback;
     }
 
     public void stopLocationUpdates() {

@@ -19,23 +19,41 @@ import com.google.android.gms.location.LocationResult;
  *
  * <IMPORTANT>
  * this is the tutorial for get abs location btn
- * @params
- * @params </IMPORTANT>
+ * do these necessary
+ * @params setLocationCallback(AbsLocationListener callback)
+ * @params AbsLocationBtn setStopEnv(int spec)
+ * </IMPORTANT>
  */
 public class AbsLocationBtn extends LocationBtn  {
     private String TAG = AbsLocationBtn.class.getSimpleName();
-    private LocationCallback locationCallback;
+    private AbsLocationListener listener;
     public AbsLocationBtn(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
 
     /**
-     * do it necessary
+     * do it necessary at your UI layer
      * @param callback
      */
-    public void setLocationCallback(LocationCallback callback){
-        this.locationCallback = callback;
+    public void setLocationCallback(AbsLocationListener callback){
+        this.listener = callback;
     }
+
+    public final int STOP_AFTER_GOT = 2;
+    public final int NOT_STOP = 3;
+    private int stop_spec = NOT_STOP; //default not_stop
+
+    /**
+     * do it necessary at your UI layer
+     * 2 choice: wanna non_stop or stop after got
+     * @param spec STOP_AFTER_GOT | NOT_STOP
+     * @return AbsLocationBtn
+     */
+    public AbsLocationBtn setStopEnv(int spec){
+        stop_spec = spec;
+        return this;
+    }
+
 
     @Override
     protected void startLocationUpdate() {
@@ -45,11 +63,25 @@ public class AbsLocationBtn extends LocationBtn  {
 
     }
 
+    private LocationCallback locationCallback = new LocationCallback(){
+        @Override
+        public void onLocationResult(LocationResult locationResult) {
+            if (stop_spec == STOP_AFTER_GOT && locationResult.getLastLocation() != null){
+                LocationUpdateUtil.getInstance().stopLocationUpdates();
+            }
+            listener.onAbsResult(locationResult);
+        }
+    };
+
     @Override
     protected void setOnAddressListener() {
         /**
          * not to do this
          * clear the super.setOnAddressListener
          */
+    }
+
+    interface AbsLocationListener{
+        void onAbsResult(LocationResult result);
     }
 }
