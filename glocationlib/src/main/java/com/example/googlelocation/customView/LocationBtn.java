@@ -6,7 +6,6 @@ import android.content.ContextWrapper;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
-
 import com.example.googlelocation.util.GpsUtil;
 import com.example.googlelocation.util.LocationUpdateUtil;
 import com.example.googlelocation.util.PermissionUtil;
@@ -15,12 +14,6 @@ import java.util.List;
 
 /**
  * Created by luyiling on 2019/4/4
- * Modified by luyiling on 2019/10/4
- * @impNote
- * 為了讓其他的btn可以做修改
- * 將startLocationUpdate()和setOnAddressListener()
- * 的個別程式碼提出來
- * 讓其他btn可以做override
  * <p>
  * TODO: customized btn should modified while lifecycle of activity and fragment changed
  *
@@ -30,6 +23,7 @@ import java.util.List;
 public class LocationBtn extends UtilBtn {
     private String TAG = LocationBtn.class.getSimpleName();
     private boolean isActiveUpdate;
+
     public LocationBtn(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
@@ -48,35 +42,21 @@ public class LocationBtn extends UtilBtn {
                     public void gpsStatus(boolean isGPSEnable) {
                         Log.e(TAG, "enable gps:"+isGPSEnable);
                         //TODO: update the new location, this 2 method should be nearby as below
-                        startLocationUpdate();
-                        setOnAddressListener();
+                        LocationUpdateUtil.getInstance().startLocationUpdates(gpsUtil.getLocateRequest());
+                        LocationUpdateUtil.getInstance().setOnAddressListener(new LocationUpdateUtil.AddressListener() {
+                            @Override
+                            public void update(boolean activeUpdate, LocationUpdateUtil.Address address) {
+                                isActiveUpdate = activeUpdate;
+                                Log.d(TAG,"current city:"+address.getCity());
+                                setText(address.getCity());
+                            }
+                        });
                     }
                 });
             }
             @Override
             public void onFailed(List<String> deny_permission) {
 
-            }
-        });
-    }
-
-    /**
-     * for override
-     */
-    protected void startLocationUpdate(){
-        LocationUpdateUtil.getInstance().startLocationUpdates(gpsUtil.getLocateRequest());
-    }
-
-    /**
-     * for override
-     */
-    protected void setOnAddressListener(){
-        LocationUpdateUtil.getInstance().setOnAddressListener(new LocationUpdateUtil.AddressListener() {
-            @Override
-            public void update(boolean activeUpdate, LocationUpdateUtil.Address address) {
-                isActiveUpdate = activeUpdate;
-                Log.d(TAG,"current city:"+address.getCity());
-                setText(address.getCity());
             }
         });
     }
