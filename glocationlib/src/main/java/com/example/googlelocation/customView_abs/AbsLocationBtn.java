@@ -1,10 +1,9 @@
-package com.example.googlelocation.customView;
+package com.example.googlelocation.customView_abs;
 
 import android.content.Context;
-import android.location.Location;
 import android.util.AttributeSet;
-import android.util.Log;
 
+import com.example.googlelocation.customView.LocationBtn;
 import com.example.googlelocation.listener.AbsLocationListener;
 import com.example.googlelocation.util.LocationUpdateUtil;
 import com.google.android.gms.location.LocationCallback;
@@ -25,7 +24,7 @@ import com.google.android.gms.location.LocationResult;
  * @params AbsLocationBtn setStopEnv(int spec)
  * </IMPORTANT>
  */
-public class AbsLocationBtn extends LocationBtn  {
+public class AbsLocationBtn extends LocationBtn {
     private String TAG = AbsLocationBtn.class.getSimpleName();
     private AbsLocationListener listener;
     public AbsLocationBtn(Context context, AttributeSet attrs) {

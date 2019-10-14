@@ -25,7 +25,6 @@ public class UtilBtn extends AppCompatTextView implements IViewActionHandler {
     private String TAG = UtilBtn.class.getSimpleName();
     protected GpsUtil gpsUtil;//have to get an instance
     private IActivityResultObserver activityResultObserver;
-
     public UtilBtn(Context context, AttributeSet attrs) {
         super(context, attrs);
         this.context = context;

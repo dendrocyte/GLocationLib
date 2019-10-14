@@ -6,6 +6,7 @@ import android.content.ContextWrapper;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
+
 import com.example.googlelocation.util.GpsUtil;
 import com.example.googlelocation.util.LocationUpdateUtil;
 import com.example.googlelocation.util.PermissionUtil;
@@ -29,7 +30,6 @@ import java.util.List;
 public class LocationBtn extends UtilBtn {
     private String TAG = LocationBtn.class.getSimpleName();
     private boolean isActiveUpdate;
-
     public LocationBtn(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
