@@ -27,6 +27,15 @@ public class UtilBtn extends AppCompatTextView implements IViewActionHandler {
     private IActivityResultObserver activityResultObserver;
     public UtilBtn(Context context, AttributeSet attrs) {
         super(context, attrs);
+        initLocatParsing(context);
+    }
+
+    public UtilBtn(Context context){
+        super(context);
+        initLocatParsing(context);
+    }
+
+    private void initLocatParsing(Context context) {
         this.context = context;
         activityResultObserver = init(context.getApplicationContext());
         LocationBtnLifecycleObserver.getInstance().registerViewActionHandler(this);

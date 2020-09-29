@@ -35,6 +35,11 @@ public class LocationBtn extends UtilBtn {
         init(context);
     }
 
+    public LocationBtn(Context context){
+        super(context);
+        init(context);
+    }
+
     public void init(final Context context){
         Log.e(TAG,"init custom view");
         PermissionUtil.getInstance().askLocationPermission(context, new PermissionUtil.Callback() {

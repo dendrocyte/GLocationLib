@@ -5,12 +5,9 @@
 <!-- 可以刪掉權限由引入的project必須引入-->
 
     <application
-        android:allowBackup="true"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-
+        android:supportsRtl="true">
 
 
         <service

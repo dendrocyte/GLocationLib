@@ -30,7 +30,9 @@ public class AbsLocationBtn extends LocationBtn {
     public AbsLocationBtn(Context context, AttributeSet attrs) {
         super(context, attrs);
     }
-
+    public AbsLocationBtn(Context context) {
+        super(context);
+    }
     /**
      * do it necessary at your UI layer
      * @param callback
