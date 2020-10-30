@@ -2,14 +2,17 @@ package com.example.googlelocation.util;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.location.LocationManager;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.example.googlelocation.rxListener.IActivityResultObserver;
+import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -116,11 +119,56 @@ public class GpsUtil {
                     } catch (IntentSender.SendIntentException sendEx) {
                         // Ignore the error.
                         Log.i(TAG, "PendingIntent unable to execute request.");
+                    } catch (NullPointerException e1){
+                        // Ignore the error.
+                        Log.e(TAG, "Activity shall not be null.");
                     }
                 }
             }
         });
     }
+
+    public void turnGPSOn(@NonNull final onGpsListener onGpsListener, @Nullable final onResovableListener onResovableListener) {
+        Task<LocationSettingsResponse> task = client.checkLocationSettings(request);
+        task.addOnSuccessListener(new OnSuccessListener<LocationSettingsResponse>() {
+            @Override
+            public void onSuccess(LocationSettingsResponse locationSettingsResponse) {
+                //GPS is already enable, callback GPS status through listener
+                LocationSettingsStates states = locationSettingsResponse.getLocationSettingsStates();
+                /*
+                * gps is on, network is on:
+                *   isGPSUsable:false
+                    isGPSPresent:true
+                    isNetworkPresent:true
+                    isNetworkUsable:true
+                    isLocationPresent:true
+                    isLocationUsable:true
+                * */
+                Log.e(TAG, "\n\nisGPSUsable:"+states.isGpsUsable()
+                        +"\nisGPSPresent:"+states.isGpsPresent()
+                        +"\nisNetworkPresent:"+states.isNetworkLocationPresent()
+                        +"\nisNetworkUsable:"+states.isNetworkLocationUsable()
+                        +"\nisLocationPresent:"+states.isLocationPresent()
+                        +"\nisLocationUsable:"+states.isLocationUsable()
+                );
+                onGpsListener.gpsStatus(states.isGpsPresent());
+
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                Log.e(TAG, e.toString());
+
+                if (e instanceof ResolvableApiException) {
+                    if (onResovableListener != null) {
+                        onResovableListener.resolve((ResolvableApiException)e);
+                    }
+                    listener = onGpsListener;
+                }
+            }
+        });
+    }
+
 
     public void clear(){
         if (weakAct != null) weakAct.clear();
@@ -143,5 +191,9 @@ public class GpsUtil {
 
     public interface onGpsListener {
         void gpsStatus(boolean isGPSEnable);
+    }
+
+    public interface onResovableListener{
+        void resolve(ResolvableApiException e);
     }
 }

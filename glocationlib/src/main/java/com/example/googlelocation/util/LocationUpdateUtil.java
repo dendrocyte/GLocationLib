@@ -42,16 +42,27 @@ public class LocationUpdateUtil {
         if (locationUpdateUtil == null) locationUpdateUtil = new LocationUpdateUtil();
         return locationUpdateUtil;
     }
+
+    /**
+     * init from internal project
+     * @param application
+     */
     public void init(Context application){
         context = application;
         fusedLocateClient = LocationServices.getFusedLocationProviderClient(application);
     }
 
+    /**
+     * init from external project
+     * @param application
+     * @param package_name
+     */
     public void init(Context application, String package_name){
         context = application;
         this.package_name = package_name;
         fusedLocateClient = LocationServices.getFusedLocationProviderClient(application);
     }
+
     /**
      * this method is for get last location only, not consistly to update location
      * special case: location be null

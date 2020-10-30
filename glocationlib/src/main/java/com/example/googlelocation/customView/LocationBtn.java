@@ -3,6 +3,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.ContextWrapper;
+import android.content.IntentSender;
 import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -10,7 +11,9 @@ import android.util.Log;
 import com.example.googlelocation.util.GpsUtil;
 import com.example.googlelocation.util.LocationUpdateUtil;
 import com.example.googlelocation.util.PermissionUtil;
+import com.google.android.gms.common.api.ResolvableApiException;
 
+import java.lang.ref.WeakReference;
 import java.util.List;
 
 /**
@@ -35,7 +38,7 @@ public class LocationBtn extends UtilBtn {
         init(context);
     }
 
-    public LocationBtn(Context context){
+    public LocationBtn(final Context context){
         super(context);
         init(context);
     }
@@ -48,13 +51,12 @@ public class LocationBtn extends UtilBtn {
             public void onSuccess(List<String> granted_permission) {
                 //TODO: permission is ok, but gps could be not turn on yet
                 Log.e(TAG, "permission here");
-                gpsUtil.turnGPSOn(getActivity(context), new GpsUtil.onGpsListener() {
+                Activity activity = getActivity(context);
+                gpsUtil.turnGPSOn(activity, new GpsUtil.onGpsListener() {
                     @Override
                     public void gpsStatus(boolean isGPSEnable) {
                         Log.e(TAG, "enable gps:"+isGPSEnable);
-                        //TODO: update the new location, this 2 method should be nearby as below
-                        startLocationUpdate();
-                        setOnAddressListener();
+                        executeLocationTaskInternal();
                     }
                 });
             }
@@ -64,6 +66,20 @@ public class LocationBtn extends UtilBtn {
             }
         });
     }
+
+    /**
+     * for override
+     *
+     * if wanna handle util.class by yourself
+     * if wanna detect the gps check is ready
+     */
+    protected void executeLocationTaskInternal(){
+        //TODO: update the new location, this 2 method should be nearby as below
+        startLocationUpdate();
+        setOnAddressListener();
+    }
+
+
 
     /**
      * for override
@@ -85,6 +101,7 @@ public class LocationBtn extends UtilBtn {
             }
         });
     }
+
 
     @Override
     public void onResume() {

@@ -41,6 +41,7 @@
     public <init>(android.content.Context);
     public <init>(android.content.Context, android.util.AttributeSet);
     public <init>(android.content.Context, android.util.AttributeSet, int);
+    public GpsUtil *();
 }
 
 -keep public class com.example.googlelocation.customView_abs.*{
@@ -60,3 +61,12 @@
 #-keep class com.google.android.gms.** { *; }
 #-dontwarn com.google.android.gms.**
 
+
+#混淆inner class
+-keep public class com.example.googlelocation.util.GpsUtil$onGpsListener { *; }
+# ****不在上面所贅述到的都會被混淆*****
+-keep public class com.example.googlelocation.util.GpsUtil {
+    public void *(android.app.Activity, com.example.googlelocation.util.GpsUtil$onGpsListener);
+}
+
+-keep public class com.example.googlelocation.util.LocationUpdateUtil { *; }
