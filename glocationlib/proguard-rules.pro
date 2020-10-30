@@ -20,6 +20,7 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+# 代码混淆壓缩比，在0~7之间，默認為5，一般不做修改
 -optimizationpasses 5
 #保持R文件不被混淆，否则，你的反射是获取不到资源id的
 -keep class **.R$* { *; }
@@ -62,10 +63,16 @@
 #-dontwarn com.google.android.gms.**
 
 
+
+
+-keep public class com.example.googlelocation.rxListener.** { *; }
+
 #混淆inner class
 -keep public class com.example.googlelocation.util.GpsUtil$onGpsListener { *; }
-# ****不在上面所贅述到的都會被混淆*****
+
 -keep public class com.example.googlelocation.util.GpsUtil {
+    public void *();
+    public *** *();
     public void *(android.app.Activity, com.example.googlelocation.util.GpsUtil$onGpsListener);
 }
 
