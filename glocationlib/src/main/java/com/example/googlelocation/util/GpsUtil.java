@@ -13,6 +13,7 @@ import android.util.Log;
 
 import com.example.googlelocation.rxListener.IActivityResultObserver;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
@@ -118,11 +119,17 @@ public class GpsUtil {
                         resolvable.startResolutionForResult(weakAct.get(), REQUEST_CHECK_SETTINGS);
                     } catch (IntentSender.SendIntentException sendEx) {
                         // Ignore the error.
+                        onGpsListener.error(sendEx);
                         Log.i(TAG, "PendingIntent unable to execute request.");
                     } catch (NullPointerException e1){
                         // Ignore the error.
+                        onGpsListener.error(e1);
                         Log.e(TAG, "Activity shall not be null.");
                     }
+                } else {
+                    // Ignore the error.
+                    onGpsListener.error(e);
+                    Log.e(TAG, "API unable to execute request");
                 }
             }
         });
@@ -191,6 +198,7 @@ public class GpsUtil {
 
     public interface onGpsListener {
         void gpsStatus(boolean isGPSEnable);
+        void error(Exception e);
     }
 
     public interface onResovableListener{

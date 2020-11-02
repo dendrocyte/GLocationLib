@@ -58,6 +58,11 @@ public class LocationBtn extends UtilBtn {
                         Log.e(TAG, "enable gps:"+isGPSEnable);
                         executeLocationTaskInternal();
                     }
+
+                    @Override
+                    public void error(Exception e) {
+                        Log.e(TAG, "handle unresolvable error: "+e);
+                    }
                 });
             }
             @Override
