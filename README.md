@@ -1,5 +1,5 @@
 # GLocationLib
-**Google gps location view**
+**Google GPS location view**
 
 wrap the google gps module and location permission module.<br>
 Just put LocationBtn in xml,
@@ -7,7 +7,7 @@ it will handle everyting, and update the location text
 
 --------
 
-*Step1.add this aar to your project*
+*Step1.import this aar to your project*
 
 *Step2.add the following to your gradle*
 
@@ -30,7 +30,7 @@ it will handle everyting, and update the location text
 *Step4.add btn to your xml*
 
 LocationBtn: get address & set address its own<br>
-AbsLocationBtn: get lat & lng, but have to setLocationCallback(listenr)<br>
+AbsLocationBtn: get lat & lng, but have to setLocationCallback(listener)<br>
 
 *Step5. if your xml is for*
 
