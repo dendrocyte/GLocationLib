@@ -28,9 +28,11 @@ it will handle everyting, and update the location text
 ````
 
 *Step4.add btn to your xml*
-LocationBtn: get address & set address its own
-AbsLocationBtn: get lat & lng, but have to setLocationCallback(listenr)
+
+LocationBtn: get address & set address its own<br>
+AbsLocationBtn: get lat & lng, but have to setLocationCallback(listenr)<br>
 
 *Step5. if your xml is for*
-fragment -> extend LocationObserveFragment
-activity -> extend LocationObserveActivity
+
+fragment -> extend LocationObserveFragment<br>
+activity -> extend LocationObserveActivity<br>
